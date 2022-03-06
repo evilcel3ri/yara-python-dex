@@ -14,22 +14,20 @@
 # limitations under the License.
 #
 
-from distutils.command.build import build
-from distutils.command.build_ext import build_ext
-from setuptools import setup, Command, Extension
-from codecs import open
-
-import distutils.errors
-import distutils.ccompiler
-import distutils.sysconfig
-
 import contextlib
+import distutils.ccompiler
+import distutils.errors
+import distutils.sysconfig
 import os
-import sys
-import tempfile
 import shutil
 import subprocess
+import sys
+import tempfile
+from codecs import open
+from distutils.command.build import build
+from distutils.command.build_ext import build_ext
 
+from setuptools import Command, Extension, setup
 
 OPTIONS = [
    ('dynamic-linking', None, 'link dynamically against libyara'),
@@ -246,6 +244,7 @@ class BuildExtCommand(build_ext):
         module.libraries.append('jansson')
       else:
         exclusions.append('yara-python/yara/libyara/modules/cuckoo.c')
+        exclusions.append('yara-python/yara/libyara/androguard.c')
 
       if self.enable_dotnet:
         module.define_macros.append(('DOTNET_MODULE', '1'))
